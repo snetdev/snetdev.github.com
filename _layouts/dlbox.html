@@ -1,0 +1,25 @@
+---
+layout: global
+---
+<div class="inlinebox" id="{{ page.category }}">
+<h3>{{ page.title }}</h3>
+<p>
+Latest available snapshot: <em>{{ page.version }}</em>.<br>
+Date posted: {{ page.date | date_to_string }}
+</p>
+<p>
+<b>Download:</b>
+{% if page.srcarchive %}
+<a href="{{ page.srcarchive }}">Sources</a>
+{% endif %}
+{% if page.l32archive %}
+<a href="{{ page.l32archive }}">Linux 32</a>
+{% endif %}
+{% if page.l64archive %}
+<a href="{{ page.l64archive }}">Linux 64</a>
+{% endif %}
+{% if page.osxarchive %}
+<a href="{{ page.osxarchive }}">OS X</a>
+{% endif %}
+</p>
+</div>

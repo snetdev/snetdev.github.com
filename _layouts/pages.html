@@ -1,0 +1,46 @@
+---
+layout: global
+---
+  <div id="the_page">
+    <div id="header">
+      <a href="http://snetdev.github.com">
+        <h2>{{ page.title }}</h2>
+      </a>
+    </div>
+    <div id="main">
+      <div id="catcolumn">
+        <div class="catcells" id="snetlibs">
+          <iframe src="{{ site.categories.snetlibs.last.url }}" 
+                  height="100px" 
+                  width="220px"
+                  frameborder="0"
+                  scrolling="no"></iframe>
+        </div>
+        <div class="catcells" id="lpellibs">
+          <iframe src="{{ site.categories.lpellibs.last.url }}" 
+                  height="100px" 
+                  width="220px"
+                  frameborder="0"
+                  scrolling="no"></iframe>
+        </div>
+        <div class="catcells" id="compiler">
+          <iframe src="{{ site.categories.compiler.last.url }}" 
+                  height="100px" 
+                  width="220px"
+                  frameborder="0"
+                  scrolling="no"></iframe>
+        </div>
+        <div class="catcells" id="ticker">
+          <div style="text-align:right;">
+          <h3>Announcements</h3></div>
+          {% for p in site.categories.ticker limit 4 %}
+          <b>{{ p.date | date_to_string }}</b> 
+          <a href="{{ p.url }}">{{ p.title }}</a><br>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="linkul">
+        {{ content }} 
+      </div>
+    </div>
+  </div>
