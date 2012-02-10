@@ -14,7 +14,7 @@ the required libraries.
 If you run into any problems don't hesitate to use 
 the [Issue Tracker](https://github.com/snetdev/snet-rts/issues).
 
-Also, if you would like to get involved in the project have a look 
-at the [sources here on github](https://github.com/snetdev), 
-get in contact with us at [info@snet-home.org](mailto:info@snet-home.org), or
-visit [http://www.snet-home.org](http://www.snet-home.org) for more information.
+We are always keen to hear about your new ideas! If you think you've got something 
+to share, get in contact: Put in a pull request,
+get in contact with us at [info@snet-home.org](mailto:info@snet-home.org) or
+join the discussion in `#adv` on freenode.
