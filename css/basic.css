@@ -20,7 +20,7 @@ a:visited {
 }
 
 #the_page {
-  background: #5a4b53;
+  background: #444544;
   width: 768px;
   margin: auto;
   padding: 15px;
@@ -57,18 +57,18 @@ a:visited {
 }
 
 #snetlibs {
-  background: #9c3c58;
+  background: #e57d45;
 }
 
 #lpellibs {
-  background: #de2b5b;
+  background: #d16628;
 }
 
 #compiler {
-  background: #d86a41;
+  background: #b04600;
 }
 
 #ticker {
-  background: #d2a825;
+  background: #fa9e00;
 }
 
