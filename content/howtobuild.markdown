@@ -36,6 +36,7 @@ title: Setting up and compiling
 
      `export SNET_INCLUDES=<my_snet_dir>/include/snet`  
      `export SNET_LIBS=<my_snet_dir>/lib/snet`  
+     `export SNET_MISC=<my_snet_dir>/share/snet`
 
 
 
