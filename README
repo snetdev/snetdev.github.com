@@ -1,4 +1,19 @@
 WWW repos for snetdev
 ------------------------
 
-TBD
+This repository contains the content + markup for the S-Net
+repository website on Github. The content is written in Markdown.
+
+In order to view this repository on a locally running webserver
+you need to install Jekyll. Jekyll will convert the Markdown files
+to HTML. Jekyll can be installed either from http://jekyllrb.com/
+or from the usual Linux software package installation resources.
+The latter option requires the packages "ruby" and "ruby-devel"
+to be installed first.  Then continue with "gem install jekyll".
+
+When Jekyll is installed it can be run in the toplevel 
+directory of this repository with "jekyll1.9 --server --auto".
+This will give you a webserver for this repository
+on some TCP port number which is printed on stdout.
+For more help see https://github.com/mojombo/jekyll/wiki/Usage
+

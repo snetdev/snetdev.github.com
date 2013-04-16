@@ -2,9 +2,9 @@
 layout: pages
 title: S-Net Dev // Downloads
 ---
-Here you can download all the individual parts to build the S-Net tool chain.  
-Everything you need to get up and running with S-Net is listed on the right.   
-All parts, except for the compiler for the time being, are available as sources
+Welcome to the S-Net project on Github!
+All S-Net software, except for the compiler for the time being,
+are available as sources
 and are licensed under the LGPL.
 
 Have a look at the [How to Build Guide](content/howtobuild.html)
