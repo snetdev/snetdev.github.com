@@ -28,7 +28,7 @@ a:visited {
   min-height:100%;
 }
 
-.catcells .catcells.long {
+.catcells, .catcells.long {
   width: 220px;
   height: 100px;
   margin: 8px;
