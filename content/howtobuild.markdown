@@ -52,6 +52,11 @@ title: Setting up and compiling
     `make install`  
     `cd ..`
 
+   In case the LPEL libraries were installed into `$LPEL_PREFIX/lib64`
+   move them to `$LPEL_PREFIX/lib`:
+
+    `mv -f $LPEL_PREFIX/lib64/liblpel* $LPEL_PREFIX/lib/.`
+
 
 5. Clone the snet-runtime repository from Github, build and install it:
 
@@ -87,6 +92,10 @@ title: Setting up and compiling
      `export DYLD_LIBRARY_PATH=$SNET_LIBS:$LPEL_PREFIX/lib:$DYLD_LIBRARY_PATH`  
 
 
-8. Download the S-Net compiler archive and unpack it. The archive contains a compiled binary. For convenience you may want to consider placing the compiler binary into a directory in your $PATH.
+8. Download the S-Net compiler archive: 
+    [Linux x86_64](https://github.com/snetdev/releases/blob/master/2013/merijn/snetc-20130206.x86_64),
+    [OS X](https://github.com/snetdev/releases/blob/master/2013/merijn/snetc-20130206.osx)
+
+    The archive contains a compiled binary. For convenience you may want to consider placing the compiler binary into a directory in your $PATH.
 
 
