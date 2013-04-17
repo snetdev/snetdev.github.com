@@ -28,7 +28,7 @@ a:visited {
   min-height:100%;
 }
 
-.catcells {
+.catcells .catcells.long {
   width: 220px;
   height: 100px;
   margin: 8px;
@@ -38,14 +38,8 @@ a:visited {
   box-shadow: 0px 0px 5px #cfcfcf;
 }
 
-.longcatcells {
-  width: 220px;
+.catcells.long {
   height: 200px;
-  margin: 8px;
-  padding: 10px;
-  border: 1px solid #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 5px #cfcfcf;
 }
 
 .inlinebox {
