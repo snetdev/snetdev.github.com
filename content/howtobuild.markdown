@@ -5,7 +5,7 @@ title: Setting up and compiling
 
 1. As an alternative to this How-To-Build-Guide a
    single script which installs everything automatically
-   can be found [here](install-snet). Edit the destination
+   can be found [here](install-snet?raw=true). Edit the destination
    directories at the top of this script and then execute it.
 
 
