@@ -26,8 +26,9 @@ export LPEL_REPO=https://github.com/snetdev/lpel.git
 # Where to get SNET-RTS from
 export SNET_REPO=https://github.com/snetdev/snet-rts.git
 
-# Where to get the S-Net compiler for Linux 
-export COMPILER="https://github.com/snetdev/releases/blob/master/2013/snetc-20130425.x86_64.bz2?raw=true"
+# Where to get the S-Net compiler
+export COMPILER_LINUX_64="https://raw.github.com/snetdev/releases/master/2013/snetc-20130507.x86_64.bz2"
+export COMPILER_LINUX_32="https://raw.github.com/snetdev/releases/master/2013/snetc-20130507.i686.bz2"
 
 mkdir -p $PCL_PREFIX $LPEL_PREFIX $SNET_PREFIX
 
@@ -112,14 +113,23 @@ function build_snet_rts () {
 }
 
 function get_snetc () {
-    raw=${COMPILER##*/}
-    bz2=${raw%\?*}
-    snc=${bz2%.bz2}
-    rm -fv -- "$raw" "$bz2" "$snc"
-    wget "$COMPILER"
-    mv -f "$raw" "$bz2"
-    bunzip2 "$bz2"
-    chmod +x "$snc"
+    case "`uname -p`" in
+    i?86)   COMPILER=$COMPILER_LINUX_32 ;;
+    x86_64) COMPILER=$COMPILER_LINUX_64 ;;
+    *)      echo "$0: Unknown platform. Not downloading a compiler..." ;;
+    esac
+    if [ "$COMPILER" != "" ]; then
+        raw=${COMPILER##*/}
+        bz2=${raw%\?*}
+        snc=${bz2%.bz2}
+        rm -fv -- "$raw" "$bz2" "$snc"
+        wget "$COMPILER"
+        if [ "$raw" != "$bz2" ]; then
+            mv -f "$raw" "$bz2"
+        fi
+        bunzip2 "$bz2"
+        chmod +x "$snc"
+    fi
 }
 
 function show_env () {
