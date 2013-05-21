@@ -3,7 +3,13 @@ layout: pages
 title: Setting up and compiling
 ---
 
-1. First define some handy environment variables for your
+1. As an alternative to this How-To-Build-Guide a
+   single script which installs everything automatically
+   can be found [here](install-snet?raw=true). Edit the destination
+   directories at the top of this script and then execute it.
+
+
+2. First define some handy environment variables for your
    preferred installation directory prefixes:
 
     `export PCL_PREFIX=/your/PCL/prefix`  
@@ -11,11 +17,12 @@ title: Setting up and compiling
     `export SNET_PREFIX=/your/SNET/prefix`  
 
    They may very well have the same prefix destinations
-   such as "`/usr/local`". In the remainder of this page we will
+   such as "`/usr/local`" or "`$PWD/build`".
+   In the remainder of this page we will
    use these variables to install the PCL, LPEL and S-Net software to.
 
 
-2. Install
+3. Install
    [libPCL](http://www.xmailserver.org/libpcl.html)
    - the GNU Portable Coroutine Library, currently
    [version 1.12](http://www.xmailserver.org/pcl-1.12.tar.gz)
@@ -27,13 +34,6 @@ title: Setting up and compiling
     `make check`  
     `make install`  
     `cd ..`  
-
-
-3. In case the PCL libraries have been installed into
-   `$PCL_PREFIX/lib64` move them to `$PCL_PREFIX/lib`:
-
-    `mkdir -p $PCL_PREFIX/lib`  
-    `mv -f $PCL_PREFIX/lib64/libpcl* $PCL_PREFIX/lib/.`  
 
 
 4. Use [Git](http://git-scm.com) to clone
@@ -51,11 +51,6 @@ title: Setting up and compiling
     `make`  
     `make install`  
     `cd ..`
-
-   In case the LPEL libraries were installed into `$LPEL_PREFIX/lib64`
-   move them to `$LPEL_PREFIX/lib`:
-
-    `mv -f $LPEL_PREFIX/lib64/liblpel* $LPEL_PREFIX/lib/.`
 
 
 5. Clone the snet-runtime repository from Github, build and install it:
@@ -93,8 +88,8 @@ title: Setting up and compiling
 
 
 8. Download the S-Net compiler archive: 
-    [Linux x86_64](https://github.com/snetdev/releases/blob/master/2013/merijn/snetc-20130206.x86_64),
-    [OS X](https://github.com/snetdev/releases/blob/master/2013/merijn/snetc-20130206.osx)
+    [Linux x86_64](https://github.com/snetdev/releases/blob/master/2013/snetc-20130425.x86_64.bz2?raw=true),
+    [OS X](https://github.com/snetdev/releases/blob/master/2013/merijn/snetc-20130206.osx?raw=true)
 
     The archive contains a compiled binary. For convenience you may want to consider placing the compiler binary into a directory in your $PATH.
 

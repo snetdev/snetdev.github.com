@@ -1,0 +1,181 @@
+#!/bin/bash
+#
+# This script installs PCL, LPEL and S-Net.
+# Please set the 3 *_PREFIX environment variables
+# to your liking before invoking this script.
+#
+
+# Abort on error
+set -e
+
+# Where to install PCL to
+export PCL_PREFIX=$PWD/build
+
+# Where to install LPEL to
+export LPEL_PREFIX=$PWD/build
+
+# Where to install SNET-RTS to
+export SNET_PREFIX=$PWD/build
+
+# Where to get PCL from
+export PCL_DIST=http://www.xmailserver.org/pcl-1.12.tar.gz
+
+# Where to get LPEL from
+export LPEL_REPO=https://github.com/snetdev/lpel.git
+
+# Where to get SNET-RTS from
+export SNET_REPO=https://github.com/snetdev/snet-rts.git
+
+# Where to get the S-Net compiler
+export COMPILER_LINUX_64="https://raw.github.com/snetdev/releases/master/2013/snetc-20130507.x86_64.bz2"
+export COMPILER_LINUX_32="https://raw.github.com/snetdev/releases/master/2013/snetc-20130507.i686.bz2"
+
+mkdir -p $PCL_PREFIX $LPEL_PREFIX $SNET_PREFIX
+
+function get_pcl () {
+    if [ ! -f pcl-1.12.tar.gz ]; then
+      wget $PCL_DIST
+    fi
+}
+
+function build_pcl () {
+    tar zxf pcl-1.12.tar.gz
+    cd pcl-1.12
+    ./configure --prefix=$PCL_PREFIX
+    make
+    make check
+    make install
+    cd ..
+}
+
+function get_lpel () {
+    if [ ! -x lpel/build-aux/bootstrap ]; then
+      rm -rf lpel
+      git clone $LPEL_REPO
+    elif [ -d lpel ]; then
+      cd lpel
+      git pull
+      [ -f Makefile ] && make distclean || true
+      cd ..
+    fi
+}
+
+function build_lpel () {
+    cd lpel
+    sed -e 's/LT_PREREQ(.*)/LT_PREREQ([2.2])/' < configure.ac > configure.$$
+    mv -f configure.$$ configure.ac
+    ./build-aux/bootstrap
+
+    ./configure --with-pcl=$PCL_PREFIX \
+        --with-mctx=pcl \
+        --prefix=$LPEL_PREFIX --disable-hwloc
+
+    make
+    make install
+    cd ..
+}
+
+function get_snet_rts () {
+    if [ ! -x snet-rts/bootstrap ]; then
+      rm -rf snet-rts
+      git clone $SNET_REPO
+    elif [ -d snet-rts ]; then
+      cd snet-rts
+      git pull
+      [ -f Makefile ] && make distclean || true
+      cd ..
+    fi
+}
+
+function build_snet_rts () {
+    if [ -f "$LPEL_PREFIX/lib64/liblpel.so.0.0.0" ]; then
+        lpel=$LPEL_PREFIX/lib64
+    elif [ -f "$LPEL_PREFIX/lib/liblpel.so.0.0.0" ]; then
+        lpel=$LPEL_PREFIX/lib
+    else
+        echo "$0: Could not locate the installed LPEL libraries!" >&2
+        exit 1
+    fi
+
+    cd snet-rts
+    sed -e 's/LT_PREREQ(.*)/LT_PREREQ([2.2])/' < configure.ac > configure.$$
+    mv -f configure.$$ configure.ac
+    ./bootstrap
+
+    ./configure --with-lpel-includes=$LPEL_PREFIX/include \
+        --with-lpel-libs=$lpel \
+        --disable-dist-mpi \
+        --prefix=$SNET_PREFIX
+
+    make
+    make install
+    cd ..
+}
+
+function get_snetc () {
+    case "`uname -p`" in
+    i?86)   COMPILER=$COMPILER_LINUX_32 ;;
+    x86_64) COMPILER=$COMPILER_LINUX_64 ;;
+    *)      echo "$0: Unknown platform. Not downloading a compiler..." ;;
+    esac
+    if [ "$COMPILER" != "" ]; then
+        raw=${COMPILER##*/}
+        bz2=${raw%\?*}
+        snc=${bz2%.bz2}
+        rm -fv -- "$raw" "$bz2" "$snc"
+        wget "$COMPILER"
+        if [ "$raw" != "$bz2" ]; then
+            mv -f "$raw" "$bz2"
+        fi
+        bunzip2 "$bz2"
+        chmod +x "$snc"
+    fi
+}
+
+function show_env () {
+
+    if [ -f "$LPEL_PREFIX/lib64/liblpel.so.0.0.0" ]; then
+        lpel=$LPEL_PREFIX/lib64
+    elif [ -f "$LPEL_PREFIX/lib/liblpel.so.0.0.0" ]; then
+        lpel=$LPEL_PREFIX/lib
+    else
+        echo "$0: Could not locate the installed LPEL libraries!" >&2
+        exit 1
+    fi
+    if [ -f "$SNET_PREFIX/lib64/snet/libC4SNet.so.0.0.0" ]; then
+        snet=$SNET_PREFIX/lib64/snet
+    elif [ -f "$SNET_PREFIX/lib/snet/libC4SNet.so.0.0.0" ]; then
+        snet=$SNET_PREFIX/lib/snet
+    else
+        echo "$0: Could not locate the installed SNet libraries!" >&2
+        exit 1
+    fi
+
+    echo
+    echo "### The following variables should be added to your environment:"
+    echo
+    echo "export SNET_INCLUDES=$SNET_PREFIX/include/snet"
+    echo "export SNET_LIBS=$snet"
+    echo "export SNET_MISC=$SNET_PREFIX/share/snet"
+
+    echo "export LD_LIBRARY_PATH=$snet:$lpel":'$LD_LIBRARY_PATH'
+}
+
+function do_fun () {
+    echo 
+    echo "##############################################################################"
+    echo "### executing $1 "
+    eval $1
+}
+
+do_fun get_pcl
+do_fun build_pcl
+do_fun get_lpel
+do_fun build_lpel
+do_fun get_snet_rts
+do_fun build_snet_rts
+do_fun get_snetc
+do_fun show_env
+
+exit 0
+
