@@ -88,9 +88,17 @@ title: Setting up and compiling
 
 
 8. Download the S-Net compiler archive: 
-    [Linux x86_64](https://github.com/snetdev/releases/blob/master/2013/snetc-20130425.x86_64.bz2?raw=true),
+    [Linux x86_64](https://raw.github.com/snetdev/releases/master/2013/snetc-20130626.x86_64.bz2),
+    [Linux i686](https://raw.github.com/snetdev/releases/master/2013/snetc-20130626.i686.bz2),
     [OS X](https://github.com/snetdev/releases/blob/master/2013/merijn/snetc-20130206.osx?raw=true)
 
-    The archive contains a compiled binary. For convenience you may want to consider placing the compiler binary into a directory in your $PATH.
+    The archive contains a compiled binary, which is compressed with bzip2.
+    Turn this into a valid executable with:
+
+    `bunzip2 snetc-*.bz2`
+    `mv snetc-* snetc`
+    `chmod +x snetc`
+    
+    For convenience, place the decompressed compiler binary into a directory in your $PATH.
 
 
