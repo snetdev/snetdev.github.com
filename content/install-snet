@@ -5,9 +5,6 @@
 # to your liking before invoking this script.
 #
 
-# Abort on error
-set -e
-
 # Where to install PCL to
 export PCL_PREFIX=$PWD/build
 
@@ -30,6 +27,14 @@ export SNET_REPO=https://github.com/snetdev/snet-rts.git
 export COMPILER_LINUX_64="https://raw.github.com/snetdev/releases/master/2013/snetc-20130626.x86_64.bz2"
 export COMPILER_LINUX_32="https://raw.github.com/snetdev/releases/master/2013/snetc-20130626.i686.bz2"
 
+# Whether to disable/enable Distributed S-Net with MPI.  Enable this only when
+# you have a working installation of MPI with a working mpicc + mpirun.
+export DIST_MPI=--enable-dist-mpi
+
+# Abort on error
+set -e
+
+# Construct destination directories, if needed.
 mkdir -p $PCL_PREFIX $LPEL_PREFIX $SNET_PREFIX
 
 function get_pcl () {
@@ -104,7 +109,7 @@ function build_snet_rts () {
 
     ./configure --with-lpel-includes=$LPEL_PREFIX/include \
         --with-lpel-libs=$lpel \
-        --disable-dist-mpi \
+        $DIST_MPI \
         --prefix=$SNET_PREFIX
 
     make
@@ -129,6 +134,9 @@ function get_snetc () {
         fi
         bunzip2 "$bz2"
         chmod +x "$snc"
+        echo
+        echo "### Please move $snc to a directory in your PATH as snetc."
+        echo
     fi
 }
 
